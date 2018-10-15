@@ -1,0 +1,14 @@
+terminal
+
+sudo apt install gnuplot
+gnuplot plot.p
+
+set terminal png
+set output "laba.png"
+plot "laba.txt" using 1:2 with points
+
+f(x) = a*x + b
+fit f(x) "laba.txt" using 1:2 via a, b
+plot points, f(x) with lines
+
+plot "laba.txt" using 1,2,3,4 with xyerrorbars
