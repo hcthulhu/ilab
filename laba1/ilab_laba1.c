@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-
+//ggg
 const int NPoints = 12;
 const double L[3] = {0.2, 0.3, 0.5};
 const double Lerr = 0.001;
