@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <math.h>
-//ggg
+#include <stdlib.h>
+
 const int NPoints = 12;
 const double L[3] = {0.2, 0.3, 0.5};
 const double Lerr = 0.001;
@@ -17,8 +18,11 @@ double CheckData(double U[], double I[], double Pavg);
 
 
 int main() {
-    double I[NPoints * 3] = {}, U[NPoints * 3] = {};
+    double* I = (double*)calloc(3 * NPoints, sizeof(double));
+    double* U = (double*)calloc(3 * NPoints, sizeof(double));
     double P[3] = {}, Perr[3] = {}, Pavg = 0, Perr_avg = 0;
+
+
 
     int nMeas = ReadData(I, U);
     if (nMeas < NPoints * 3) {
@@ -33,7 +37,7 @@ int main() {
 }
 
 
-int ReadData(double * I, double * U) {
+int ReadData(double I[], double U[]) {
     FILE* Bxod = fopen ("Bxod.txt", "r");
     if (!Bxod) {printf ("Can't open Bxod \n"); return -1;}
     int line = 0;

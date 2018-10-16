@@ -1,4 +1,46 @@
+*загрузка файла
+*запись текста в файл
+*подготовка данных
+*сортировка
+*запись в файл
 
+
+строка.........\n -> \0
+...............\n -> \0
+...............\n -> \0
+
+
+char** poem = NULL;
+*poem = text;
+*(poem + 1) =  text + i;
+
+
+#include <cstdlib>
+void qsort(void *ptz, int count, int size, int (*cmp)(void*, void*));
+ptz - указатель на массив
+count - кол-во эл-тов
+size - размер элементов
+int cmp(const void* a, const void* b);
+отриц - a<b
+0 - a=b
+полож - a>b
+
+
+int cmp((void*)*(poem + 1), (void*)*(poem)) {
+  int ret = 0;
+  char* str1 = (char*) a, str2 = (char*) b;
+  for (int a = 0, b = 0, ret = 0; ret == 0; a++, b++) {
+    //checking ' ', '!', ... , increase a, b
+    //changing 'A' to 'a'
+    if (str1[a] < str2[b]) ret = -1;
+    if (str1[a] > str2[b]) ret = 1;
+  }
+}
+
+
+qsort(poem, n_str, sizeof(char*));
+for(int i = 0; i < n_str; i++)
+  fputs(*(poem + i));
 
 char poem[2048][1024] = {};
 ...
