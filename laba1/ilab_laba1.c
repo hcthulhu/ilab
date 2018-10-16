@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
 
 const int NPoints = 12;
 const double L[3] = {0.2, 0.3, 0.5};
@@ -17,7 +18,8 @@ double CheckData(double U[], double I[], double Pavg);
 
 
 int main() {
-    double I[NPoints * 3] = {}, U[NPoints * 3] = {};
+    double* I = (double*)calloc(3 * NPoints, sizeof(double));
+    double* U = (double*)calloc(3 * NPoints, sizeof(double));
     double P[3] = {}, Perr[3] = {}, Pavg = 0, Perr_avg = 0;
 
     int nMeas = ReadData(I, U);
@@ -29,11 +31,14 @@ int main() {
     CalculateLaba(I, U, P, &Pavg, Perr, &Perr_avg);
     if (CheckData(U, I, Pavg) > 0) WriteToFile(P, Pavg, Perr, Perr_avg);
 
+    free(I);
+    free(U);
+
     return 0;
 }
 
 
-int ReadData(double * I, double * U) {
+int ReadData(double I[], double U[]) {
     FILE* Bxod = fopen ("Bxod.txt", "r");
     if (!Bxod) {printf ("Can't open Bxod \n"); return -1;}
     int line = 0;
@@ -49,6 +54,7 @@ int ReadData(double * I, double * U) {
 void CalculateLaba(double I[], double U[], double P[], double *Pavg, double Perr[], double *Perr_avg) {
     double R[3] = {}, Rerr[3] = {};
     double Nfirst = 0, Nlast = 0;
+    double Perr_rel = 0;
 
     for (int LNum = 0; LNum <= 2; LNum++) {
         Nfirst = LNum * NPoints;
@@ -63,7 +69,9 @@ void CalculateLaba(double I[], double U[], double P[], double *Pavg, double Perr
         Nfirst = LNum * NPoints;
         Nlast = (LNum + 1) * NPoints - 1;
         Rerr[LNum] = sqrt((Dispersion(U, Nfirst, Nlast)/Dispersion(I, Nfirst, Nlast) - (R[LNum] * R[LNum]))/(NPoints - 2));
-        Perr[LNum] = P[LNum] * sqrt((Rerr[LNum]/R[LNum]) * (Rerr[LNum]/R[LNum]) + (2 * Derr/Dmt) * (2 * Derr/Dmt) + (Lerr/L[LNum]) * (Lerr/L[LNum]));
+        Perr_rel = sqrt((Rerr[LNum]/R[LNum]) * (Rerr[LNum]/R[LNum])
+                   + (2 * Derr/Dmt) * (2 * Derr/Dmt) + (Lerr/L[LNum]) * (Lerr/L[LNum]));
+        Perr[LNum] = P[LNum] * Perr_rel;
         *Perr_avg += Perr[LNum];
     }
     *Perr_avg /= 3;
@@ -91,6 +99,7 @@ double Covariance(double X[], double Y[], double Nfirst, double Nlast ) {
 
     for ( line = Nfirst; line <= Nlast; line++ ) Yavg += Y[line];
     Yavg /= NPoints;
+
 
     for ( line = Nfirst; line <= Nlast; line++ ) Xavg += X[line];
     Xavg /= NPoints;
