@@ -10,7 +10,7 @@ const double Derr = 0.1;
 const double Dmt = 3.63;
 
 int ReadData(double I[], double U[]);
-void  CalculateLaba(double I[], double U[], double P[], double *Pavg, double Perr[], double *Perr_avg);
+void CalculateLaba(double I[], double U[], double P[], double *Pavg, double Perr[], double *Perr_avg);
 void WriteToFile(double P[], double Pavg, double Perr[], double Perr_avg);
 double Dispersion(double X[], double Nfirst, double Nlast);
 double Covariance(double X[], double Y[], double Nfirst, double Nlast);
