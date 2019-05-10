@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/romanzlobin/Workspace/ilab/proc/comp.cpp
+comp.h
+/Users/romanzlobin/Workspace/ilab/proc/comp.h
+fstream
+-
+cstring
+-
+cstdio
+-
+
+/Users/romanzlobin/Workspace/ilab/proc/comp.h
+cstdio
+-
+vector
+-
+cstring
+-
+iostream
+-
+fstream
+-
+

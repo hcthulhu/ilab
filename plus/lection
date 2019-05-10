@@ -1,0 +1,32 @@
+//cppreference
+/*
+stack
+push
+pop
+size
+clear
+capacity
+*/
+
+class Stack {
+    private:
+        int* data_;
+        int size_;
+    public:
+        int push (int value);
+        int pop ();
+        //...
+        explicit Stack (int size);
+        ~Stack ();
+};
+
+Stack::Stack (int capacity) :
+    data_(new int [capacity]),
+    size_(0)
+    {}
+
+
+
+int main {
+
+}

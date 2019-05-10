@@ -1,0 +1,6 @@
+push 1512487
+pop bx
+print dx
+mov ax bx
+je <14>
+jmp <1111>

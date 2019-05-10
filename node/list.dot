@@ -1,0 +1,34 @@
+digraph G{
+rankdir = LR;
+	node [shape = "box", color = "black", fontsize = 14];
+	edge [color = "black"];
+	size [label = "Size = 7"]
+
+	elem_1 [shape = "record", label = "<ptr>1\nHEAD\n0x7f9bd1c02a70 | 100 |
+		{<prev> prev \n0x0\n | <next> next\n 0x7f9bd1c02a40} | checksum\n -320389021} "]
+	elem_2 [shape = "record", label = "<ptr>2\n0x7f9bd1c02a40 | 3 |
+		{<prev> prev \n0x7f9bd1c02a70\n | <next> next\n 0x7f9bd1c02a10} | checksum\n 1243964132} "]
+	elem_3 [shape = "record", label = "<ptr>3\n0x7f9bd1c02a10 | 2 |
+		{<prev> prev \n0x7f9bd1c02a40\n | <next> next\n 0x7f9bd1c029e0} | checksum\n 1243966693} "]
+	elem_4 [shape = "record", label = "<ptr>4\n0x7f9bd1c029e0 | 1 |
+		{<prev> prev \n0x7f9bd1c02a10\n | <next> next\n 0x7f9bd1c02aa0} | checksum\n 1243969590} "]
+	elem_5 [shape = "record", label = "<ptr>5\n0x7f9bd1c02aa0 | 5 |
+		{<prev> prev \n0x7f9bd1c029e0\n | <next> next\n 0x7f9bd1c02ae0} | checksum\n 1243969218} "]
+	elem_6 [shape = "record", label = "<ptr>6\n0x7f9bd1c02ae0 | 6 |
+		{<prev> prev \n0x7f9bd1c02aa0\n | <next> next\n 0x7f9bd1c02b10} | checksum\n 1243969649} "]
+	elem_7 [shape = "record", label = "<ptr>7\nTAIL\n0x7f9bd1c02b10 | 7 |
+		{<prev> prev \n0x7f9bd1c02ae0\n | <next> next\n 0x0} | checksum\n -1477991648} "]
+
+	elem_1:<next>->elem_2:<ptr>
+	elem_2:<prev>->elem_1:<ptr>
+	elem_2:<next>->elem_3:<ptr>
+	elem_3:<prev>->elem_2:<ptr>
+	elem_3:<next>->elem_4:<ptr>
+	elem_4:<prev>->elem_3:<ptr>
+	elem_4:<next>->elem_5:<ptr>
+	elem_5:<prev>->elem_4:<ptr>
+	elem_5:<next>->elem_6:<ptr>
+	elem_6:<prev>->elem_5:<ptr>
+	elem_6:<next>->elem_7:<ptr>
+	elem_7:<prev>->elem_6:<ptr>
+}
