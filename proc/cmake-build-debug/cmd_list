@@ -1,0 +1,30 @@
+halt    ed e e
+dump    88 e e
+
+push    a1 r e
+push    a2 n e
+
+pop     b1 r e
+pop     b2 e e
+
+mov     d1 r r
+mov     d2 r n
+
+cmp     c1 r r
+cmp     c2 r n
+
+jmp     e0 m e
+je      e1 m e
+ja      e2 m e
+jb      e3 m e
+jne     e4 m e
+
+call    ff m e
+print   f1 r e
+write   f2 r e
+
+add     11 e e
+sub     12 e e
+mul     13 e e
+div     14 e e
+sqrt    15 e e
