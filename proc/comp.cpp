@@ -12,7 +12,8 @@ void Compiler::read() {
 
     if(!(cpu_file.is_open() && cmd_file.is_open())) {
         std::cout << "File opening error" << std::endl;
-        exit(-1);
+        err = 10;
+        exit(err);
     }
 
     Command tmp_cmd = {};
@@ -35,28 +36,35 @@ void Compiler::read() {
 
     std::string str_cmd = {};
 
-    int pointer = 0;
-    std::vector<Label> metka;
-    std::vector<MashCmd> mash_cmd = {};
-
-
     for ( ; !cpu_file.eof() ; ) {
+        line_ptr++;
         getline(cpu_file, str_cmd);
-        find_func(&metka, &mash_cmd, str_cmd);
+        find_func(str_cmd);
     }
 
-    find_labels(metka, &mash_cmd);
+    find_labels();
 
-    print(mash_cmd);
+    print();
 
-    cpu_file.seekg(0);
+    cpu_file.close();
+    cmd_file.close();
+    hex_file.close();
+
+    if (err_flag) {
+        exit(5);
+    }
 
 }
 
 Compiler::Compiler(std::string file_name, std::string cmd_list):
     hex_file("prog.hex", std::ios_base::out | std::ios_base::trunc),
-    cpu_file(file_name.data(), std::ios_base::in),
-    cmd_file(cmd_list, std::ios_base::in) {}
+    cpu_file(file_name, std::ios_base::in),
+    cmd_file(cmd_list, std::ios_base::in) {
+    ptr = 0;
+    line_ptr = 0;
+    err = 0;
+    err_flag = 0;
+}
 
 char Compiler::arg_type(std::string arg) {
     int len = arg.length();
@@ -69,13 +77,12 @@ char Compiler::arg_type(std::string arg) {
             return 'r';
     }
 
-    if ( (arg.data()[0] == '<') && (arg.data()[len - 1] == '>') )
+    if ( arg[0] == '_' )
         return 'm';
 
-    for ( int i = 0; arg.data()[i] != '\0'; i++ ) {
-        if ( !std::isdigit(arg.data()[i]) ) {
-            std::cout << "Wrong argument" << std::endl;
-            exit(-1);
+    for ( int i = 0; arg[i] != '\0'; i++ ) {
+        if ( !std::isdigit(arg[i]) ) {
+            return -1;
         }
     }
 
@@ -105,6 +112,16 @@ std::string Compiler::reg_str(std::string reg) {
             ret += num.hex_reg;
         }
     }
+
+    return ret;
+}
+
+std::string Compiler::lbl_str(std::string addr) {
+    int i_addr = std::stoi(addr);
+    std::string ret = {};
+
+    ret += int_to_hex(i_addr / 16 % 16);
+    ret += int_to_hex(i_addr % 16);
 
     return ret;
 }
@@ -152,8 +169,8 @@ char int_to_hex (int digit) {
     }
 }
 
-void Compiler::print(std::vector<MashCmd> mash_cmd) {
-    for (const auto num : mash_cmd) {
+void Compiler::print() {
+    for (const auto num : mach_cmd) {
         hex_file << num.hex_cmd << " ";
         if (num.arg1 != "") {
             hex_file << num.arg1 << " ";
@@ -164,64 +181,121 @@ void Compiler::print(std::vector<MashCmd> mash_cmd) {
     }
 }
 
-void Compiler::find_func(std::vector<Label> *metka, std::vector<MashCmd> *mash_cmd, const std::string str_cmd) {
-    std::string word[3] = {};
+void SPskip(int &i, std::string string) {
+    while ( string[i] == ' ' ) {
+        i++;
+    }
+    if ( string[i] == '/' ) {
+        i++;
+        while ( string[i] != '/' && string[i] != '\0') {
+            i++;
+        }
+        i++;
+    }
+    while ( string[i] == ' ' ) {
+        i++;
+    }
+}
+
+void Compiler::read_cmd(const std::string str_cmd, std::string &name, std::string &arg1, std::string &arg2) {
+    int i = 0;
+    SPskip(i, str_cmd);
+    for ( ; str_cmd[i] != ' ' && str_cmd[i] != '\0' && str_cmd[i] != '/' ; i++) {
+        name += str_cmd[i];
+    }
+    SPskip(i, str_cmd);
+    for ( ; str_cmd[i] != ' ' && str_cmd[i] != '\0' && str_cmd[i] != '/' ; i++) {
+        arg1 += str_cmd[i];
+    }
+    SPskip(i, str_cmd);
+    for ( ; str_cmd[i] != ' ' && str_cmd[i] != '\0' && str_cmd[i] != '/' ; i++) {
+        arg2 += str_cmd[i];
+    }
+    SPskip(i, str_cmd);
+    if ( str_cmd[i] == '/' || str_cmd[i] == '\0') {
+        return;
+    } else {
+        err = 15;
+        err_flag = 1;
+        std::cout << "Too many arguments in line " << line_ptr << std::endl;
+    }
+}
+
+void Compiler::find_func(const std::string str_cmd) {
+
+    std::string name = {};
+    std::string arg1 = {};
+    std::string arg2 = {};
+
     MashCmd tmp_mcmd = {};
     Label tmp_metka = {};
+    std::string sptr = {};
 
     int mlen = 0;
-    int ptr = 0;
-    int err = -1;
 
-    for (int i = 0, j = 0; str_cmd.data()[i] != '\0'; i++) {
-        if (str_cmd.data()[i] == ' ') {
-            j++;
-        } else {
-            word[j] += str_cmd.data()[i];
-        }
-    }
-
-    mlen = word[0].length();
+    read_cmd(str_cmd, name, arg1, arg2);
+    mlen = name.length();
 
     for (const auto num : cmd) {
-        if ((word[0] == num.cmd) &&
-            (arg_type(word[1]) == num.arg1) &&
-            (arg_type(word[2]) == num.arg2)) {
+        err = 1;
+        if ((arg_type(arg1) == -1) || (arg_type(arg2) == -1)) {
+            err = 5;
+            err_flag = 1;
+            std::cout << "Wrong argument in line " << line_ptr << std::endl;
+            break;
+        }
+        if ((name == num.cmd) &&
+            (arg_type(arg1) == num.arg1) &&
+            (arg_type(arg2) == num.arg2)) {
 
             tmp_mcmd.hex_cmd += num.hex_cmd;
-            tmp_mcmd.arg1 += arg_str(word[1], num.arg1);
-            tmp_mcmd.arg2 += arg_str(word[2], num.arg2);
+            tmp_mcmd.arg1 += arg_str(arg1, num.arg1);
+            tmp_mcmd.arg2 += arg_str(arg2, num.arg2);
 
-            mash_cmd->push_back(tmp_mcmd);
+            mach_cmd.push_back(tmp_mcmd);
 
             ptr += num.length;
             err = 0;
             break;
 
-        } else if ( (word[0].data()[0] == '<') &&
-                    (word[0].data()[mlen - 2] == '>') &&
-                    (word[0].data()[mlen - 1] == ':') ) {
-            tmp_metka.addr += ptr;
-            tmp_metka.name += word[0];
+        } else if ( (name[0] == '_') &&
+                    (name[mlen - 1] == ':') ) {
+            sptr += lbl_str(std::to_string(ptr));
+            tmp_metka.addr += sptr;
+            name.pop_back();
+            tmp_metka.name += name;
 
-            metka->push_back(tmp_metka);
+            metka.push_back(tmp_metka);
+
+            err = 0;
+            break;
         }
     }
 
-    if (err == -1 && !cpu_file.eof()) {
-        std::cout << "No matching function" << std::endl;
-        exit(-1);
+    if ( (err == 1) && !cpu_file.eof()) {
+        err_flag = 1;
+        std::cout << "No matching function in line " << line_ptr << std::endl;
     }
 }
 
-void Compiler::find_labels(std::vector<Label> metka, std::vector<MashCmd> *mash_cmd) {
-    int size = mash_cmd->size();
+void Compiler::find_labels() {
+    int size = mach_cmd.size();
     for ( int i = 0; i < size; i++ ) {
-        for ( const auto label : metka ) {
-            if (*(mash_cmd + i)->arg1.data() == label.name) {
-                *(mash_cmd + i)->arg1.clear();
-                *(mash_cmd + i)->arg1 += label.name;
+        if (mach_cmd[i].arg1[0] == '_') {
+            err = 20;
+            for ( const auto label : metka ) {
+                if (mach_cmd[i].arg1 == label.name) {
+                    mach_cmd[i].arg1.clear();
+                    mach_cmd[i].arg1 += label.addr;
+                    err = 0;
+                    break;
+                }
+            }
+            if (err) {
+                err_flag = 1;
+                std::cout << "Metka " << mach_cmd[i].arg1 << " doesn't exist" << std::endl;
             }
         }
     }
 }
+
