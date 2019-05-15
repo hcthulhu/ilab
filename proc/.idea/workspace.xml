@@ -11,15 +11,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11793283-1154-4acb-a6d0-a53cd67ad1d6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Progress/4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Progress/count.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/proc" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/proc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/prog.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/prog.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/comp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/comp.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/comp.h" beforeDir="false" afterPath="$PROJECT_DIR$/comp.h" afterDir="false" />
-    </list>
+    <list default="true" id="11793283-1154-4acb-a6d0-a53cd67ad1d6" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,8 +28,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/comp.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1430">
-              <caret line="65" column="17" selection-start-line="65" selection-start-column="17" selection-end-line="65" selection-end-column="17" />
+            <state relative-caret-position="1034">
+              <caret line="47" selection-start-line="47" selection-end-line="47" />
               <folding>
                 <element signature="e#0#17#0" expanded="true" />
               </folding>
@@ -48,8 +40,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/comp.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="629">
-              <caret line="65" selection-start-line="65" selection-end-line="65" selection-end-column="20" />
+            <state relative-caret-position="562">
+              <caret line="62" selection-start-line="62" selection-end-line="62" />
               <folding>
                 <element signature="e#41#58#0" expanded="true" />
               </folding>
@@ -137,7 +129,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -154,6 +145,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -240,6 +232,7 @@
       <workItem from="1557498921277" duration="6570000" />
       <workItem from="1557517531503" duration="7484000" />
       <workItem from="1557569563922" duration="774000" />
+      <workItem from="1557751257867" duration="1422000" />
     </task>
     <task id="LOCAL-00001" summary="арпро">
       <created>1557499017215</created>
@@ -248,11 +241,18 @@
       <option name="project" value="LOCAL" />
       <updated>1557499017215</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="comp.cpp">
+      <created>1557751318112</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1557751318112</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="74409000" />
+    <option name="totallyTimeSpent" value="75831000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -267,7 +267,7 @@
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19027181" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19241774" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="0" weight="0.32891566" />
@@ -320,7 +320,8 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="арпро" />
-    <option name="LAST_COMMIT_MESSAGE" value="арпро" />
+    <MESSAGE value="comp.cpp" />
+    <option name="LAST_COMMIT_MESSAGE" value="comp.cpp" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -430,9 +431,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/prog.hex">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/cmake-build-debug/cmd_list">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="484">
@@ -442,18 +440,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/comp.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1430">
-          <caret line="65" column="17" selection-start-line="65" selection-start-column="17" selection-end-line="65" selection-end-column="17" />
+        <state relative-caret-position="1034">
+          <caret line="47" selection-start-line="47" selection-end-line="47" />
           <folding>
             <element signature="e#0#17#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/prog.hex">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/comp.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="65" selection-start-line="65" selection-end-line="65" selection-end-column="20" />
+        <state relative-caret-position="562">
+          <caret line="62" selection-start-line="62" selection-end-line="62" />
           <folding>
             <element signature="e#41#58#0" expanded="true" />
           </folding>
