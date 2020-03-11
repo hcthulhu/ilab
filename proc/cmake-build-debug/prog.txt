@@ -1,0 +1,9 @@
+push 1512487
+pop bx
+print dx
+mov ax bx
+_add:
+je _add
+_saa:
+jmp _saa
+call _saa

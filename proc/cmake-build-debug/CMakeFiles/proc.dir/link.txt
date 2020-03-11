@@ -1,0 +1,1 @@
+/Library/Developer/CommandLineTools/usr/bin/c++  -g -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/proc.dir/main.cpp.o CMakeFiles/proc.dir/stack.cpp.o CMakeFiles/proc.dir/cpu.cpp.o CMakeFiles/proc.dir/comp.cpp.o  -o proc 
